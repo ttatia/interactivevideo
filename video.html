@@ -27,21 +27,17 @@ video.currentTime = this.getAttribute('data-start');
 if(video.paused){ video.play(); }
 };
 controlbar.addEventListener('mousemove',function(e) {
-// сначала на основе позиции мыши рассчитываем позицию во времени ..
 var p = (e.pageX - controlbar.offsetLeft) * video.duration / 480;
-
-// ..затем находим соответствующую метку..
 var c = video.textTracks[0].cues;
 for (var i=0; i p) {
 break;
 };
 }
 
-// ..затем определяем url-адрес изображения и медиа фрагмента..
+
 var url =c[i].text.split('#')[0];
 var xywh = c[i].text.substr(c[i].text.indexOf("=")+1).split(',');
 
-// ..и наконец стилизируем перекрытие миниатюрой
 thumbnail.style.backgroundImage = 'url('+c[i].text.split('#')[0]+')';
 thumbnail.style.backgroundPosition = '-'+xywh[0]+'px -'+xywh[1]+'px';
 thumbnail.style.left = e.pageX - xywh[2]/2+'px';
@@ -50,19 +46,17 @@ thumbnail.style.width = xywh[2]+'px';
 thumbnail.style.height = xywh[3]+'px';
 });
 form.addEventListener('submit',function(e) {
-// Сначала мы блокируем перезагрузку страницы и извлекаем ключевое слово/запрос..
+
 e.preventDefault();
 var c = video.textTracks[0].cues;
 var q = document.querySelector("input").value.toLowerCase();
 
-// ..затем находим все подходящие метки..
 var a = [];
 for(var j=0; j -1) {
 a.push(c[j]);
 }
 }
 
-// ..и выводим найденные метки в панели управления
 for (var i=0; i<a.length ; i++) {
 var s = document.createElement("span");
 s.style.left = (a[i].startTime/video.duration*480-2)+"px";
